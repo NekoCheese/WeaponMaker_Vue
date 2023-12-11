@@ -1,0 +1,321 @@
+<script setup>
+import { onMounted } from 'vue';
+
+let MediaData = [
+  { src: "media01", title: "rifle" },
+  { src: "media02", title: "rifle" },
+  { src: "media03", title: "rifle" },
+  { src: "media04", title: "rifle" },
+  { src: "media05", title: "rifle" }
+]
+
+onMounted(() => {
+  const lazyImages = document.querySelectorAll(".lazy");
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        const src = img.dataset.src;
+
+        // 載入完成後切換效果
+        img.onload = () => {
+          img.classList.add("lazy-out");
+          img.classList.remove("lazy");
+        };
+
+        img.setAttribute("src", src);
+
+        observer.unobserve(img);
+      }
+    });
+  });
+
+  lazyImages.forEach((image) => {
+    observer.observe(image);
+  });
+})
+</script>
+
+<template>
+  <div class="media">
+
+    <!-- ＊搜尋.篩選功能追加＊ -->
+    <div class="search-wrp">
+      <div class="search_box">
+        <input type="text" />
+      </div>
+
+      <div class="time_hot">
+        <span class="hot">排序 :
+          <input type="button" value="人氣" />
+
+          <div>
+            <input type="button" value="熱門度" />
+            <input type="button" value="最新" />
+          </div>
+        </span>
+
+        <span class="time">篩選 :
+          <input type="button" value="最新" />
+
+          <div>
+            <input type="button" value="人氣 > 10" />
+            <input type="button" value="人氣 > 20" />
+            <input type="button" value="人氣 > 50" />
+          </div>
+        </span>
+      </div>
+    </div>
+    <!-- ＊搜尋.篩選功能追加＊ -->
+
+    <h2>團隊作品</h2>
+
+    <div class="all_media">
+      <ul>
+        <li v-for="item in MediaData" :class="item.title">
+          <img :src="'./src/assets/images/media_img/' + item.src + '_lqip.jpg'"
+            :data-src="'./src/assets/images/media_img/' + item.src + '.jpg'" class="lazy lightbox" />
+        </li>
+      </ul>
+    </div>
+  </div>
+</template >
+<style lang="scss">
+/* 麵包屑 */
+.top-nav a:nth-child(3) {
+  color: #ff7300;
+}
+
+/* 搜尋欄 */
+.search-wrp {
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  height: 100px;
+}
+
+.search_box {
+  margin: 0 auto;
+}
+
+.search_box::after {
+  content: "\f002";
+  color: rgb(255, 255, 255);
+  font-weight: 800;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.search_box input {
+  width: 460px;
+  margin-left: 40px;
+  background-color: rgb(255 255 255 / 0%);
+  border-width: 0;
+  border-bottom: 2px solid #ff7300;
+  color: white;
+  font-size: 2rem;
+  outline: none;
+}
+
+/* 側邊紐 */
+
+.search-wrp .time_hot {
+  display: flex;
+  width: auto;
+  position: relative;
+  text-align: center;
+}
+
+.search-wrp .time_hot span {
+  width: 100px;
+}
+
+.search-wrp .time_hot span>input {
+  width: 50px;
+  height: 25px;
+  /* border-radius: 5px; */
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+}
+
+.search-wrp .time_hot div {
+  margin-top: 5px;
+  display: none;
+}
+
+.search-wrp .time_hot div input {
+  background-color: rgba(48, 48, 48, 0.7);
+  color: white;
+  padding: 10px;
+  border: none;
+  width: 100%;
+}
+
+.search-wrp .time_hot .hot {
+  position: absolute;
+  right: 300px;
+}
+
+.search-wrp .time_hot .time {
+  position: absolute;
+  right: 100px;
+}
+
+/* TTTTIIIITTTTLLLLEEEE */
+
+.media h2 {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* 圖 */
+.media .all_media {
+  background: rgb(255, 255, 255, 0.2);
+  margin: 20px 20px;
+  padding: 20px 20px;
+  columns: 4;
+}
+
+.all_media ul {
+  /* display: flex; */
+  /* justify-content: space-around; */
+  /* flex-wrap: wrap; */
+  align-items: center;
+  border-radius: 5px;
+}
+
+.all_media ul li {
+  /* display: flex; */
+  /* justify-content: center; */
+  margin: 0 auto;
+  width: 100%;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.all_media ul li img {
+  width: 100%;
+  border: 1px solid white;
+}
+
+/* LIGHTBOX */
+/* LIGHTBOX */
+.img-popup {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  width: 95vw;
+  height: 95vh;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background: rgba(38, 40, 52, 0.95);
+  /* text-align: center; */
+  border: 1px solid rgb(59, 59, 59);
+  border-radius: 15px;
+  z-index: 9999;
+  font-size: 1.5rem;
+
+  animation: fadein;
+  animation-duration: 0.5s;
+}
+
+.img-popup .l_bk {
+  position: relative;
+  width: 60%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 15px 0 0 15px;
+}
+
+.img-popup .r_bk {
+  width: 30%;
+  margin: 100px auto;
+  height: 100%;
+}
+
+.img-popup .r_bk>div {
+  display: flex;
+  margin: 30px 0;
+  justify-content: space-evenly;
+  cursor: pointer;
+}
+
+.img-popup .r_bk i {
+  padding-top: 2px;
+  font-size: 1.5rem;
+  width: 20%;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.img-popup .r_bk i:hover {
+  color: #ff7300;
+}
+
+.img-popup ul {
+  text-align: center;
+}
+
+.img-popup ul li {
+  width: 100%;
+  background-color: rgb(59, 59, 59);
+  margin: 20px 0;
+  padding: 20px 0;
+}
+
+.img-popup img {
+  top: 50%;
+  left: 50%;
+  max-width: 90%;
+  max-height: 90vh;
+  position: absolute;
+  display: inline-block;
+  transform: translate(-50%, -50%);
+}
+
+.close-lightbox {
+  position: absolute;
+  top: 45px;
+  right: 45px;
+  padding: 0px 10px;
+  color: #fff;
+  font-size: 35px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  z-index: 99;
+  cursor: pointer;
+}
+
+.lightboxfadeout {
+  animation: fadeout;
+  animation-duration: 0.5s;
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+    transform: scale(0.1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeout {
+  100% {
+    opacity: 0;
+    transform: scale(0.1);
+  }
+
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+</style>
