@@ -39,6 +39,7 @@ let BannerData = [
   },
 ]
 
+// 輪播功能
 const owl = function () {
   $(".owl-carousel").owlCarousel({
     items: 1,
@@ -65,14 +66,14 @@ onBeforeUnmount(() => {
   <div class="home">
     <div class="owl-carousel owl-theme head-pic" id="home_for_pc">
       <div class="item" v-for="item in OwlData" :key="item.img_src">
-        <img :src="'./src/assets/images/home_img/' + item.img_src" />
+        <img :src="'/public/' + item.img_src" />
       </div>
     </div>
 
     <main>
       <ul class="banner">
         <li v-for="item in BannerData">
-          <img :src="'./src/assets/images/home_img/' + item.img_src" />
+          <img :src="'/public/' + item.img_src" />
           <div>
             <h3>{{ item.title }}</h3>
             <p>

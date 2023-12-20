@@ -45,7 +45,7 @@ let AvatarData = [
 
       <ul class="avater">
         <li class="ava" v-for="item in AvatarData">
-          <img :src="'./src/assets/images/about_img/' + item.src">
+          <img :src="'../assets/images/about_img/' + item.src">
           <h4>{{ item.name }}</h4>
           <p>{{ item.title }}</p>
         </li>
