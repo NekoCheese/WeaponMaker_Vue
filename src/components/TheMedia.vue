@@ -74,8 +74,8 @@ onMounted(() => {
     <div class="all_media">
       <ul>
         <li v-for="item in MediaData" :class="item.title">
-          <img :src="'../assets/images/media_img/' + item.src + '_lqip.jpg'"
-            :data-src="'../assets/images/media_img/' + item.src + '.jpg'" class="lazy lightbox" />
+          <img :src="'/public/' + item.src + '_lqip.jpg'"
+            :data-src="'/public/' + item.src + '.jpg'" class="lazy lightbox" />
         </li>
       </ul>
     </div>

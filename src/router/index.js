@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import NotFound from '../views/NotFound.vue';
+import NotFound from "../views/NotFound.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,10 +31,16 @@ const router = createRouter({
       component: () => import("../views/CommsView.vue"),
     },
     {
-      path: '/:catchAll(.*)',
-      component: NotFound,
+      path: "/:catchAll(.*)",
+      component: () => import("../views/NotFound.vue"),
     },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  // 在每次路由切換前將滾動位置重置到頁面的最上方
+  window.scrollTo(0, 0);
+  next();
 });
 
 export default router;

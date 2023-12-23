@@ -1,0 +1,1 @@
+import{_ as n,o as e,c as o,d as _}from"./index-5d3d7038.js";const s={},r={class:"page404"};function a(t,c){return e(),o("h1",r,"404 NotFound.")}const u=n(s,[["render",a]]),f={__name:"NotFound",setup(t){return(c,d)=>(e(),o("main",null,[_(u)]))}};export{f as default};

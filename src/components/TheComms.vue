@@ -61,7 +61,7 @@ onBeforeUnmount(() => {
     <h4>指南</h4>
     <ul>
       <li class="product1" v-for="item in CommData">
-        <img :src="'../assets/images/comms_img/' + item.src" />
+        <img :src="'/public/' + item.src" />
         <h2>{{ item.title }}</h2>
         <p>{{ item.text }}</p>
         <a href="#">閱讀更多</a>
